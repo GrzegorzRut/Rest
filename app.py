@@ -1,8 +1,10 @@
 from flask import Flask,jsonify,request
+from nocache import nocache
 import numpy as np
 app = Flask(__name__)
 
-@app.route('/',methods = ["GET"]) # once server is running, application's waiting for '/', then makes #the function and sends response
+@app.route('/',methods = ["GET"]) # once server is running, application's waiting for '/', then makes #the function and sends
+@nocache
 def hello_world():
     return "Hello world"
 
@@ -34,6 +36,6 @@ def hi_there_everyine():
     return d
 
 if __name__=="__main__":
-    app.run(host='127.0.0.1',port=80,debug = True)
+    app.run(host='127.0.0.1',port=160,debug = True)
     
    
