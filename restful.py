@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
-from nocache import nocache
 
 app = Flask(__name__)
 api = Api(app)
@@ -135,7 +134,6 @@ api.add_resource(Multiply, "/mul")
 api.add_resource(Divide, "/div")
 
 @app.route('/')
-@nocache
 def hello_world():
     return "Hello restful"
 
