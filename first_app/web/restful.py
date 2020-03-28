@@ -1,8 +1,33 @@
+"""
+Registration of a user - 0 tokens
+Each user gets 10 tokens
+Store a sentence on our database for 1 token
+Retrieve his stored sentence on database for 1 token
+"""
+
+
+
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 
+from pymongo import MongoClient
+
 app = Flask(__name__)
 api = Api(app)
+
+client = MongoClient('mongodb://db:27017') #default mongo port
+db = client.aNewDB
+UserNum = db["UserNum"]
+UserNum.insert({
+    "num of users": 0
+})
+
+class Visit(Resource):
+    def get(self):
+        prev_num = UserNum.find({})[0]['num of users']
+        new_num = prev_num + 1
+        UserNum.update({}, {'$set': {'num of users':new_num}})
+        return str('hello user') + " " + str(new_num)
 
 def checkPostedData(postedData, functionName):
     if functionName in ['add','sub','div','mul']:
@@ -132,6 +157,7 @@ api.add_resource(Add, "/add")
 api.add_resource(Substract, "/sub")
 api.add_resource(Multiply, "/mul")
 api.add_resource(Divide, "/div")
+api.add_resource(Visit, "/")
 
 @app.route('/')
 def hello_world():
